@@ -1,24 +1,30 @@
 package org.swimming.domain;
 
 import lombok.ToString;
+import org.swimming.service.DateLabelFormatter;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.ParseException;
+import java.util.*;
+
 @ToString
 public class Lesson {
-    private String gradeLevel;
+    private Integer gradeLevel;
     private String time;
-    private String day;
     private Coach coach;
+    private Object date;
     private Map<String, Learner> learners;
 
-    public Lesson(String gradeLevel, String time, String day, Coach coach) {
+    public Lesson(Integer gradeLevel, String time, String Date, Coach coach) {
+        DateLabelFormatter dateLabelFormatter = new DateLabelFormatter();
         this.gradeLevel = gradeLevel;
         this.time = time;
-        this.day = day;
         this.coach = coach;
+        try {
+            this.date = dateLabelFormatter.stringToValue(Date);
+        } catch (ParseException e) {
+            System.out.println("Problem In date Conversion :)");
+            throw new RuntimeException(e);
+        }
         this.learners = new HashMap<>();
     }
 
@@ -36,11 +42,11 @@ public class Lesson {
         return learners.remove(learner.getName()) != null;
     }
 
-    public String getGradeLevel() {
+    public Integer getGradeLevel() {
         return gradeLevel;
     }
 
-    public void setGradeLevel(String gradeLevel) {
+    public void setGradeLevel(Integer gradeLevel) {
         this.gradeLevel = gradeLevel;
     }
 
@@ -52,20 +58,20 @@ public class Lesson {
         this.time = time;
     }
 
-    public String getDay() {
-        return day;
-    }
-
-    public void setDay(String day) {
-        this.day = day;
-    }
-
     public Coach getCoach() {
         return coach;
     }
 
     public void setCoach(Coach coach) {
         this.coach = coach;
+    }
+
+    public Object getDate() {
+        return date;
+    }
+
+    public void setDate(Object date) {
+        this.date = date;
     }
 
     public Map<String, Learner> getLearners() {

@@ -1,15 +1,54 @@
 package org.swimming.ui;
 
+import org.swimming.domain.Coach;
+import org.swimming.domain.Learner;
+import org.swimming.domain.Lesson;
+import org.swimming.domain.Timetable;
+
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class HomeUi {
-
+    private final Timetable timetable;
+    private final HashMap<String, Learner> learners;
     public static void main(String[] args) {
-        new HomeUi();
-    }
-    public HomeUi() {
+        Timetable timetable = new Timetable();
+        HashMap<String, Learner> learners = new HashMap<>();
+        initializeData(learners,timetable);
+        new HomeUi(timetable,learners);
 
+    }
+    public HomeUi(Timetable timetable,HashMap<String,Learner> learners) {
+        this.timetable = timetable;
+        this.learners = learners;
+        createAndShowUi();
+
+    }
+    private static void initializeData(HashMap<String,Learner> learners, Timetable timetable) {
+        Coach coach = new Coach("Coach Name", new HashMap<>());
+
+        Lesson lesson1 = new Lesson(1, "4-5pm", "2024-04-15", coach);
+        Lesson lesson2 = new Lesson(2, "5-6pm", "2024-04-15", coach);
+        Lesson lesson2A = new Lesson(2, "5-6pm", "2024-04-17", coach);
+        Lesson lesson3 = new Lesson(3, "5-6pm", "2024-04-17", coach);
+        Lesson lesson4 = new Lesson(4, "5-6pm", "2024-04-19", coach);
+
+        timetable.addLesson("2024-04-15", lesson1);
+        timetable.addLesson("2024-04-15", lesson2);
+        timetable.addLesson("2024-04-17", lesson2A);
+        timetable.addLesson("2024-04-17", lesson3);
+        timetable.addLesson("2024-04-19", lesson4);
+
+        Learner learner1 = new Learner("Learner 1", "Male", 10, "Emergency Contact 1", 1);
+        Learner learner2 = new Learner("Learner 2", "Female", 9, "Emergency Contact 2", 2);
+
+        learners.put(learner1.getName(), learner1);
+        learners.put(learner2.getName(), learner2);
+    }
+    private void createAndShowUi() {
         JFrame frame = new JFrame("Home");
         frame.setSize(1500, 1000);
 
@@ -39,9 +78,10 @@ public class HomeUi {
 
         frame.add(buttonPanel);
 
-        bookBtn.addActionListener(e->{
-//            new ReportUi();
-            frame.dispose();
+        bookBtn.addActionListener(e -> {
+
+            new BookingUi(timetable,learners);
+//            frame.dispose();
         });
 
 
@@ -94,4 +134,5 @@ public class HomeUi {
         button.setIcon(new ImageIcon(newImage));
 
     }
+
 }

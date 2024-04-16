@@ -13,7 +13,7 @@ public class Learner {
     private String gender;
     private int age;
     private String emergencyContact;
-    private int gradeLevel;
+    private Integer gradeLevel;
     private Map<String, Lesson> bookedLessons;
     private Map<String, Lesson> cancelledLessons;
     private Map<String, Lesson> attendedLessons;
