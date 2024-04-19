@@ -9,28 +9,33 @@ import java.util.Map;
 
 @ToString
 public class Learner {
+    private Integer id;
     private String name;
     private String gender;
     private int age;
     private String emergencyContact;
     private Integer gradeLevel;
-    private Map<String, Lesson> bookedLessons;
-    private Map<String, Lesson> cancelledLessons;
-    private Map<String, Lesson> attendedLessons;
+    private Map<String, List<Lesson>> lessonStatus;
     private Map<Lesson, Integer> lessonReviews;
+    private Map<Coach,Integer> coachRatings;
 
-    public Learner(String name, String gender, int age, String emergencyContact, int gradeLevel) {
+    public Learner(Integer id, String name, String gender, int age, String emergencyContact, int gradeLevel) {
+        this.id = id;
         this.name = name;
         this.gender = gender;
         this.age = age;
         this.emergencyContact = emergencyContact;
         this.gradeLevel = gradeLevel;
-        this.bookedLessons = new HashMap<>();
-        this.cancelledLessons = new HashMap<>();
-        this.attendedLessons = new HashMap<>();
+        this.lessonStatus= new HashMap<>();
         this.lessonReviews = new HashMap<>();
     }
 
+    public Integer getId() {
+        return id;
+    }
+    public void setId(Integer id) {
+        this.id = id;
+    }
     public String getName() {
         return name;
     }
@@ -71,28 +76,24 @@ public class Learner {
         this.gradeLevel = gradeLevel;
     }
 
-    public Map<String, Lesson> getBookedLessons() {
-        return bookedLessons;
+    // Method to add entries to the HashMap
+    public void addLesson(String key, Lesson lesson) {
+        // Check if the key already exists in the map
+        if (!lessonStatus.containsKey(key)) {
+            // If the key doesn't exist, create a new list and add the lesson
+            List<Lesson> lessons = new ArrayList<>();
+            lessons.add(lesson);
+            lessonStatus.put(key, lessons);
+        } else {
+            // If the key exists, retrieve the list and add the lesson to it
+            List<Lesson> lessons = lessonStatus.get(key);
+            lessons.add(lesson);
+        }
     }
 
-    public void setBookedLessons(Map<String, Lesson> bookedLessons) {
-        this.bookedLessons = bookedLessons;
-    }
-
-    public Map<String, Lesson> getCancelledLessons() {
-        return cancelledLessons;
-    }
-
-    public void setCancelledLessons(Map<String, Lesson> cancelledLessons) {
-        this.cancelledLessons = cancelledLessons;
-    }
-
-    public Map<String, Lesson> getAttendedLessons() {
-        return attendedLessons;
-    }
-
-    public void setAttendedLessons(Map<String, Lesson> attendedLessons) {
-        this.attendedLessons = attendedLessons;
+    // Getter method to access the HashMap from outside
+    public Map<String, List<Lesson>> getLessonStatus() {
+        return lessonStatus;
     }
 
     public Map<Lesson, Integer> getLessonReviews() {
@@ -101,5 +102,21 @@ public class Learner {
 
     public void setLessonReviews(Map<Lesson, Integer> lessonReviews) {
         this.lessonReviews = lessonReviews;
+    }
+
+    public Map<Coach, Integer> getCoachRatings() {
+        return coachRatings;
+    }
+
+    public void setCoachRatings(Map<Coach, Integer> coachRatings) {
+        this.coachRatings = coachRatings;
+    }
+
+    public Boolean removeLesson(String status, Lesson lessonToRemove) {
+        List<Lesson> lessons = lessonStatus.get(status);
+        if (lessons != null) {
+            return lessons.remove(lessonToRemove);
+        }
+        return false;
     }
 }

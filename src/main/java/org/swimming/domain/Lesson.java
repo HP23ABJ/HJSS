@@ -8,14 +8,16 @@ import java.util.*;
 
 @ToString
 public class Lesson {
+    private Integer id;
     private Integer gradeLevel;
     private String time;
     private Coach coach;
     private Object date;
     private Map<String, Learner> learners;
 
-    public Lesson(Integer gradeLevel, String time, String Date, Coach coach) {
+    public Lesson(Integer id, Integer gradeLevel, String time, String Date, Coach coach) {
         DateLabelFormatter dateLabelFormatter = new DateLabelFormatter();
+        this.id = id;
         this.gradeLevel = gradeLevel;
         this.time = time;
         this.coach = coach;
@@ -36,6 +38,14 @@ public class Lesson {
             return true;
         }
         return false;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public boolean removeLearner(Learner learner) {
@@ -81,5 +91,5 @@ public class Lesson {
     public void setLearners(Map<String, Learner> learners) {
         this.learners = learners;
     }
-// Other methods as needed
+
 }

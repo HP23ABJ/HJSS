@@ -11,22 +11,18 @@ import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
 import org.swimming.service.DateLabelFormatter;
 
-public class BookingUi {
+public class UpdateBookingUi {
     private final Timetable timetable;
     private final HashMap<String, Learner> learners;
     private final Learner learner;
-    public BookingUi(Timetable timetable, HashMap<String,Learner> learners) {
-        this.timetable = timetable;
-        this.learners  = learners;
-        this.learner = null;
-        displayLearnerSelection();
+    private final Integer lessonId;
 
-    }
 
-    public BookingUi(Timetable timetable,Learner learner) {
+    public UpdateBookingUi(Timetable timetable,Learner learner,HashMap<String,Learner> learners, Integer lessonId) {
         this.timetable = timetable;
         this.learner  = learner;
-        this.learners = null;
+        this.learners = learners;
+        this.lessonId = lessonId;
         if (learner != null) {
             displayBookingInterface(learner);
         } else {
@@ -35,50 +31,8 @@ public class BookingUi {
         }
 
     }
-    private void displayLearnerSelection() {
-        JFrame frame = new JFrame("Select Learner");
-        frame.setSize(400, 200);
-        frame.setLayout(new BorderLayout());
 
-        JPanel panel = new JPanel();
-        panel.setLayout(new GridLayout(3, 2,10,10));
-
-        JLabel learnerLabel = new JLabel("Select Learner:");
-        JComboBox<String> learnerComboBox = new JComboBox<>();
-
-        for (String learnerName : learners.keySet()) {
-            learnerComboBox.addItem(learnerName);
-        }
-
-        panel.add(learnerLabel);
-        panel.add(learnerComboBox);
-
-        JButton selectButton = new JButton("Select");
-        selectButton.addActionListener(e -> {
-            String selectedLearnerName = (String) learnerComboBox.getSelectedItem();
-            Learner selectedLearner = learners.get(selectedLearnerName);
-            if (selectedLearner != null) {
-                displayBookingInterface(selectedLearner);
-                frame.dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "Failed to find learner with name: " + selectedLearnerName,
-                        "Error", JOptionPane.ERROR_MESSAGE);
-            }
-        });
-        panel.add(selectButton);
-        JButton backButton = new JButton("Back");
-        backButton.addActionListener(e -> {
-            new HomeUi(timetable,learners);
-            frame.dispose();
-        });
-        frame.add(panel, BorderLayout.CENTER);
-        frame.add(backButton,BorderLayout.SOUTH);
-        frame.setVisible(true);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-    }
-
-private void displayBookingInterface(Learner learner) {
+    private void displayBookingInterface(Learner learner) {
         JFrame frame = new JFrame("Book a Swimming Lesson");
         frame.setSize(600, 400);
         frame.setLayout(new BorderLayout());
@@ -119,7 +73,7 @@ private void displayBookingInterface(Learner learner) {
 
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
-            displayLearnerSelection();
+            new HomeUi(timetable,learners);
             frame.dispose();
         });
 
@@ -186,7 +140,7 @@ private void displayBookingInterface(Learner learner) {
             return;
         }
 
-        Learner learner = selectedLearner;  
+        Learner learner = selectedLearner;
         if (learner == null) {
             JOptionPane.showMessageDialog(null, "Failed to retrieve learner information.", "Error", JOptionPane.ERROR_MESSAGE);
             return;
@@ -198,14 +152,21 @@ private void displayBookingInterface(Learner learner) {
         }
         boolean bookingSuccess = selectedLesson.addLearner(learner);
         if (bookingSuccess) {
+            Lesson lesson = timetable.getLessonById(lessonId);
+            if(lesson != null) {
+                if(lesson.removeLearner(learner) && selectedLearner.removeLesson("Booked",lesson)) {
+                    selectedLearner.addLesson("Cancelled",lesson);
+                    System.out.println("Learner removed from the Lesson --> Lesson removed from Booked --> Lesson added to cancelled !!!");
+                }else{
+                    System.out.println("Can't find the learner in the Lesson.");
+                }
+            }
+
             learner.addLesson("Booked",selectedLesson);
-            JOptionPane.showMessageDialog(null, "Lesson booked successfully!", "Booking Successful", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Lesson updated successfully!", "Update Successful", JOptionPane.INFORMATION_MESSAGE);
         } else {
-            JOptionPane.showMessageDialog(null, "Failed to book lesson. Please try again later.", "Booking Failed", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Failed to update lesson. Please try again later.", "Booking Failed", JOptionPane.ERROR_MESSAGE);
         }
-    }
-    private Learner getLearnerByName(String learnerName) {
-        return learners.get(learnerName);
     }
 
     public boolean checkLessonStatus(Learner selectedLearner, Lesson selectedLesson) {

@@ -29,4 +29,15 @@ public class Timetable {
     public void setTimetable(Map<String, Map<String, Lesson>> timetable) {
         this.timetable = timetable;
     }
+
+    public Lesson getLessonById(int lessonId) {
+        for (Map<String, Lesson> dayLessons : timetable.values()) {
+            for (Lesson lesson : dayLessons.values()) {
+                if (lesson.getId() == lessonId) {
+                    return lesson;
+                }
+            }
+        }
+        return null; // Lesson with the given ID not found
+    }
 }
