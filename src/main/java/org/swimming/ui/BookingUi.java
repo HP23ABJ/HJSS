@@ -15,10 +15,12 @@ public class BookingUi {
     private final Timetable timetable;
     private final HashMap<String, Learner> learners;
     private final Learner learner;
-    public BookingUi(Timetable timetable, HashMap<String,Learner> learners) {
+    private final List<Lesson> lessons;
+    public BookingUi(Timetable timetable, HashMap<String,Learner> learners,List<Lesson> lessons) {
         this.timetable = timetable;
         this.learners  = learners;
         this.learner = null;
+        this.lessons = lessons;
         displayLearnerSelection();
 
     }
@@ -27,6 +29,7 @@ public class BookingUi {
         this.timetable = timetable;
         this.learner  = learner;
         this.learners = null;
+        this.lessons = null;
         if (learner != null) {
             displayBookingInterface(learner);
         } else {
@@ -68,7 +71,7 @@ public class BookingUi {
         panel.add(selectButton);
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
-            new HomeUi(timetable,learners);
+            new HomeUi(timetable,learners,lessons);
             frame.dispose();
         });
         frame.add(panel, BorderLayout.CENTER);

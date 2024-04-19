@@ -8,23 +8,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 
 public class HomeUi {
     private final Timetable timetable;
     private final HashMap<String, Learner> learners;
+    private final List<Lesson> lessons;
 
     public static void main(String[] args) {
         Timetable timetable = new Timetable();
         HashMap<String, Learner> learners = new HashMap<>();
         ArrayList<Lesson> lessons = new ArrayList<>();
         initializeData(learners,timetable,lessons);
-        new HomeUi(timetable,learners);
+        new HomeUi(timetable,learners,lessons);
 
     }
-    public HomeUi(Timetable timetable,HashMap<String,Learner> learners) {
+    public HomeUi(Timetable timetable,HashMap<String,Learner> learners, List<Lesson> lessons) {
         this.timetable = timetable;
         this.learners = learners;
+        this.lessons = lessons;
         createAndShowUi();
 
     }
@@ -84,20 +87,19 @@ public class HomeUi {
         frame.add(buttonPanel);
         bookBtn.addActionListener(e -> {
 
-            new BookingUi(timetable,learners);
+            new BookingUi(timetable,learners,lessons);
             frame.dispose();
         });
 
 
         cancleBookingBtn.addActionListener((event)->{
-            new CancelBookingUi(timetable,learners);
+            new CancelBookingUi(timetable,learners,lessons);
             frame.dispose();
         });
 
         attendLessonBtn.addActionListener((event)->{
-
+            new AttendClassUI(timetable,learners,lessons);
             frame.dispose();
-//            new VehicleUi();
 
         });
 

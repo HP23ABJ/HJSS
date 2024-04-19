@@ -12,9 +12,11 @@ import java.util.List;
 public class CancelBookingUi {
     private final Timetable timetable;
     private final HashMap<String, Learner> learners;
-    public CancelBookingUi(Timetable timetable, HashMap<String, Learner> learners) {
+    private final List<Lesson> lessons;
+    public CancelBookingUi(Timetable timetable, HashMap<String, Learner> learners, List<Lesson> lessons) {
         this.timetable = timetable;
         this.learners  = learners;
+        this.lessons = lessons;
         displayLearnerSelection();
     }
 
@@ -51,7 +53,7 @@ public class CancelBookingUi {
         panel.add(selectButton);
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
-            new HomeUi(timetable,learners);
+            new HomeUi(timetable,learners,lessons);
             frame.dispose();
         });
         frame.add(panel, BorderLayout.CENTER);
@@ -62,11 +64,17 @@ public class CancelBookingUi {
     }
 
     private void displayBookings(Learner learner){
-        Learner seletedLearner = learner;
+        Learner selectedLearner = learner;
         DateLabelFormatter dateLabelFormatter = new DateLabelFormatter();
-        List<Lesson> bookedLessons = seletedLearner.getLessonStatus().get("Booked");
-        if(bookedLessons.isEmpty()){
-            JOptionPane.showMessageDialog(null, "No Booked Lessons for "+seletedLearner.getName(), "No Lessons", JOptionPane.WARNING_MESSAGE);
+        List<Lesson> bookedLessons;
+        if(selectedLearner.getLessonStatus() != null && !(selectedLearner.getLessonStatus().isEmpty())){
+            bookedLessons = selectedLearner.getLessonStatus().get("Booked");
+        }else{
+            bookedLessons = null;
+        }
+        if( bookedLessons == null || bookedLessons.isEmpty()){
+            JOptionPane.showMessageDialog(null, "No Booked Lessons for "+selectedLearner.getName(), "No Lessons", JOptionPane.WARNING_MESSAGE);
+            new HomeUi(timetable,learners,lessons);
         }else{
 
             JFrame frame = new JFrame("Select Booking");
@@ -98,13 +106,13 @@ public class CancelBookingUi {
                 String[] idParts = idPart.split(":");
                 String lessonIdString = idParts[1].trim();
 
-                new UpdateBookingUi(timetable,seletedLearner,learners,Integer.parseInt(lessonIdString));
+                new UpdateBookingUi(timetable,selectedLearner,learners,Integer.parseInt(lessonIdString),lessons);
                 frame.dispose();
             });
             panel.add(selectButton);
             JButton backButton = new JButton("Back");
             backButton.addActionListener(e -> {
-                new CancelBookingUi(timetable,learners);
+                new CancelBookingUi(timetable,learners,lessons);
                 frame.dispose();
             });
             frame.add(panel, BorderLayout.CENTER);

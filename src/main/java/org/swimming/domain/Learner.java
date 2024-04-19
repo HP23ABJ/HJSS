@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@ToString
 public class Learner {
     private Integer id;
     private String name;
@@ -16,8 +15,8 @@ public class Learner {
     private String emergencyContact;
     private Integer gradeLevel;
     private Map<String, List<Lesson>> lessonStatus;
-    private Map<Lesson, Integer> lessonReviews;
-    private Map<Coach,Integer> coachRatings;
+    private Map<Lesson,String> lessonReviews;
+    private Map<Lesson,Integer> coachRatings;
 
     public Learner(Integer id, String name, String gender, int age, String emergencyContact, int gradeLevel) {
         this.id = id;
@@ -28,6 +27,7 @@ public class Learner {
         this.gradeLevel = gradeLevel;
         this.lessonStatus= new HashMap<>();
         this.lessonReviews = new HashMap<>();
+        this.coachRatings = new HashMap<>();
     }
 
     public Integer getId() {
@@ -96,19 +96,19 @@ public class Learner {
         return lessonStatus;
     }
 
-    public Map<Lesson, Integer> getLessonReviews() {
+    public Map<Lesson, String> getLessonReviews() {
         return lessonReviews;
     }
 
-    public void setLessonReviews(Map<Lesson, Integer> lessonReviews) {
+    public void setLessonReviews(Map<Lesson, String> lessonReviews) {
         this.lessonReviews = lessonReviews;
     }
 
-    public Map<Coach, Integer> getCoachRatings() {
+    public Map<Lesson, Integer> getCoachRatings() {
         return coachRatings;
     }
 
-    public void setCoachRatings(Map<Coach, Integer> coachRatings) {
+    public void setCoachRatings(Map<Lesson,Integer> coachRatings) {
         this.coachRatings = coachRatings;
     }
 
@@ -118,5 +118,9 @@ public class Learner {
             return lessons.remove(lessonToRemove);
         }
         return false;
+    }
+
+    public List<Lesson> getLearnersByStatus (String status, Learner learner){
+            return learner.getLessonStatus().get(status);
     }
 }

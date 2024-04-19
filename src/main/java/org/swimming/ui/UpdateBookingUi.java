@@ -16,13 +16,15 @@ public class UpdateBookingUi {
     private final HashMap<String, Learner> learners;
     private final Learner learner;
     private final Integer lessonId;
+    private final List<Lesson> lessons;
 
 
-    public UpdateBookingUi(Timetable timetable,Learner learner,HashMap<String,Learner> learners, Integer lessonId) {
+    public UpdateBookingUi(Timetable timetable,Learner learner,HashMap<String,Learner> learners, Integer lessonId, List<Lesson> lessons) {
         this.timetable = timetable;
         this.learner  = learner;
         this.learners = learners;
         this.lessonId = lessonId;
+        this.lessons = lessons;
         if (learner != null) {
             displayBookingInterface(learner);
         } else {
@@ -73,7 +75,7 @@ public class UpdateBookingUi {
 
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
-            new HomeUi(timetable,learners);
+            new HomeUi(timetable,learners,lessons);
             frame.dispose();
         });
 
