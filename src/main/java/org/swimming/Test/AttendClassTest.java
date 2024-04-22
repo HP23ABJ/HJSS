@@ -29,7 +29,6 @@ public class AttendClassTest {
         AttendClassUI attendClassUI = new AttendClassUI();
         attendClassUI.attendClass(selectedLearner, selectedLesson);
 
-        // Verify that the learner's lesson status has been updated to "Attended"
         assertEquals("Attended", selectedLearner.getLessonStatus());
 
         int expectedRating = 5;

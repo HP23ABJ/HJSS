@@ -18,7 +18,6 @@ public class UpdateBookingTest {
 
     @Test
     public void testBookLesson() {
-        // Create necessary objects and dependencies
         UpdateBookingUi updatebookingUi = new UpdateBookingUi(new Timetable(),
                 new Learner(),
                 new HashMap<String,Learner>(),

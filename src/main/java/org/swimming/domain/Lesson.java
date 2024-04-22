@@ -2,7 +2,6 @@ package org.swimming.domain;
 
 import lombok.ToString;
 import org.swimming.service.DateLabelFormatter;
-
 import java.text.ParseException;
 import java.util.*;
 

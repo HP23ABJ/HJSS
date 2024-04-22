@@ -138,14 +138,12 @@ public class AttendClassUI {
         frame.setSize(400, 200);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Initialize components
         JTextArea reviewTextArea = new JTextArea(3, 20);
         JLabel reviewLabel = new JLabel("Lesson Review:");
         JComboBox<Integer> ratingComboBox = new JComboBox<>(new Integer[]{1, 2, 3, 4, 5});
         JButton selectButton = new JButton("Select");
         JButton backButton = new JButton("Back");
 
-        // Create panel to hold components
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(3, 2));
         panel.add(reviewLabel);
@@ -155,10 +153,8 @@ public class AttendClassUI {
         panel.add(selectButton);
         panel.add(backButton);
 
-        // Add panel to frame
         frame.add(panel);
 
-        // Add action listeners
         selectButton.addActionListener(e -> {
             DateLabelFormatter dateLabelFormatter = new DateLabelFormatter();
             String review = reviewTextArea.getText();
@@ -179,7 +175,12 @@ public class AttendClassUI {
 
             selectedLearner.removeLesson("Booked",selectedLesson);
             selectedLearner.addLesson("Attended",selectedLesson);
-            JOptionPane.showMessageDialog(null, "Lesson Attended successfully!", "lesson Attended Successful", JOptionPane.INFORMATION_MESSAGE);
+            if(selectedLearner.getGradeLevel() < selectedLesson.getGradeLevel()){
+                selectedLearner.setGradeLevel(selectedLesson.getGradeLevel());
+                JOptionPane.showMessageDialog(null, "Lesson Attended successfully! And GradeLevel Upgraded to "+ selectedLearner.getGradeLevel(), "lesson Attended Successful", JOptionPane.INFORMATION_MESSAGE);
+            }else {
+                JOptionPane.showMessageDialog(null, "Lesson Attended successfully!", "lesson Attended Successful", JOptionPane.INFORMATION_MESSAGE);
+            }
             frame.dispose();
             new HomeUi(timetable,learners,lessons,coaches);
         });
@@ -189,7 +190,6 @@ public class AttendClassUI {
             frame.dispose();
         });
 
-        // Make the frame visible
         frame.setVisible(true);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);

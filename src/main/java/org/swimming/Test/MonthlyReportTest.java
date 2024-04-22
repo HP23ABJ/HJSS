@@ -46,11 +46,11 @@ public class MonthlyReportTest {
         when(selectedLearner.getLessonStatus()).thenReturn(lessonStatus);
 
         Object[][] data =monthlyLearnerReport.prepareLessonData(selectedLearner,selectedMonth);
-        assertEquals(1, data.length); // Expecting one lesson in this case
-        assertEquals("1", data[0][0]); // Verify ID
-        assertEquals(5, data[0][1]); // Verify Grade Level
-        assertEquals("10:00 AM", data[0][2]); // Verify Time
-        assertEquals("Monday", data[0][3]); // Verify Day
+        assertEquals(1, data.length);
+        assertEquals("1", data[0][0]);
+        assertEquals(5, data[0][1]);
+        assertEquals("10:00 AM", data[0][2]);
+        assertEquals("Monday", data[0][3]);
         assertEquals("2024-04-01", data[0][4]);
 
     }

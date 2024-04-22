@@ -315,7 +315,6 @@ public class viewTimetableUi {
             }
             return;
         }
-
         Lesson selectedLesson = null;
         for (Lesson lesson : lessons.values()) {
             if (lesson.getGradeLevel().equals(selectedGrade)|| lesson.getGradeLevel().equals(selectedGrade+1)) {
@@ -323,7 +322,6 @@ public class viewTimetableUi {
                 break;
             }
         }
-
         if (selectedLesson == null) {
             DateLabelFormatter dateLabelFormatter = new DateLabelFormatter();
             try {
