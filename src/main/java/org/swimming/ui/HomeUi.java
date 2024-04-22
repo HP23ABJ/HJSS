@@ -261,17 +261,29 @@ public class HomeUi {
         timetable.addLesson("2024-05-18", lesson43);
         timetable.addLesson("2024-05-18", lesson44);
 
-        Learner learner1 = new Learner(1,"Hamza", "Male", 10, "Emergency Contact 1", 1);
-        Learner learner2 = new Learner(2,"Manahil", "Female", 9, "Emergency Contact 2", 2);
-        Learner learner3 = new Learner(2,"Mariya", "Female", 11, "Emergency Contact 3", 1);
-        Learner learner4 = new Learner(2,"Anusha", "Female", 10, "Emergency Contact 4", 1);
-        Learner learner5 = new Learner(2,"Senorita", "Female", 5, "Emergency Contact 5", 1);
+        Learner learner1 = new Learner(1,"Hamza", "Male", 10, "447946234567", 1);
+        Learner learner2 = new Learner(2,"Senorita", "Female", 9, "447946234567", 2);
+        Learner learner3 = new Learner(2,"Mariya", "Female", 11, "447946234567", 3);
+        Learner learner4 = new Learner(2,"Anusha", "Female", 10, "447946234567", 4);
+        Learner learner5 = new Learner(2,"Marsh", "Male", 4, "447946234567", 5);
+        Learner learner6 = new Learner(2,"John", "Male", 8, "447946234567", 5);
+        Learner learner7 = new Learner(2,"Abbas", "Male", 10, "447946234567", 2);
+        Learner learner8 = new Learner(2,"Adam", "Male", 6, "447946234567", 3);
+        Learner learner9 = new Learner(2,"Monica", "Female", 7, "447946234567", 0);
+        Learner learner10 = new Learner(2,"Mellow", "Male", 9, "447946234567", 0);
+        Learner learner11 = new Learner(2,"Lee", "Male", 5, "447946234567", 1);
 
         learners.put(learner1.getName(), learner1);
         learners.put(learner2.getName(), learner2);
         learners.put(learner3.getName(), learner3);
         learners.put(learner4.getName(), learner4);
         learners.put(learner5.getName(), learner5);
+        learners.put(learner6.getName(), learner6);
+        learners.put(learner7.getName(), learner7);
+        learners.put(learner8.getName(), learner8);
+        learners.put(learner9.getName(), learner9);
+        learners.put(learner10.getName(), learner10);
+        learners.put(learner11.getName(), learner11);
 
         coaches.put(Alexander.getName(), Alexander);
         coaches.put(Frank.getName(), Frank);
