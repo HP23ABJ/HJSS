@@ -16,7 +16,7 @@ public class Learner {
     private Integer gradeLevel;
     private Map<String, List<Lesson>> lessonStatus;
     private Map<Lesson,String> lessonReviews;
-    private Map<Lesson,Integer> coachRatings;
+    private Map<Coach,List<Integer>> coachRatings;
 
     public Learner(Integer id, String name, String gender, int age, String emergencyContact, int gradeLevel) {
         this.id = id;
@@ -28,6 +28,10 @@ public class Learner {
         this.lessonStatus= new HashMap<>();
         this.lessonReviews = new HashMap<>();
         this.coachRatings = new HashMap<>();
+    }
+
+    public Learner() {
+
     }
 
     public Integer getId() {
@@ -104,11 +108,11 @@ public class Learner {
         this.lessonReviews = lessonReviews;
     }
 
-    public Map<Lesson, Integer> getCoachRatings() {
+    public Map<Coach, List<Integer>> getCoachRatings() {
         return coachRatings;
     }
 
-    public void setCoachRatings(Map<Lesson,Integer> coachRatings) {
+    public void setCoachRatings(Map<Coach,List<Integer>> coachRatings) {
         this.coachRatings = coachRatings;
     }
 
@@ -122,5 +126,21 @@ public class Learner {
 
     public List<Lesson> getLearnersByStatus (String status, Learner learner){
             return learner.getLessonStatus().get(status);
+    }
+
+    public void setLessonStatus(Map<String, List<Lesson>> lessonStatus) {
+        this.lessonStatus = lessonStatus;
+    }
+
+
+    public void addCoachRating(Coach coach, int rating, Learner learner) {
+        if (learner.getCoachRatings().containsKey(coach)) {
+            List<Integer> ratings = coachRatings.get(coach);
+            ratings.add(rating);
+        } else {
+            List<Integer> ratings = new ArrayList<>();
+            ratings.add(rating);
+            coachRatings.put(coach, ratings);
+        }
     }
 }

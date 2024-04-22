@@ -1,9 +1,11 @@
 package org.swimming.ui;
+import org.swimming.domain.Coach;
 import org.swimming.domain.Learner;
 import org.swimming.domain.Lesson;
 import org.swimming.domain.Timetable;
 import javax.swing.*;
 import java.awt.*;
+import java.text.ParseException;
 import java.util.*;
 import java.util.List;
 import org.jdatepicker.impl.JDatePanelImpl;
@@ -16,11 +18,14 @@ public class BookingUi {
     private final HashMap<String, Learner> learners;
     private final Learner learner;
     private final List<Lesson> lessons;
-    public BookingUi(Timetable timetable, HashMap<String,Learner> learners,List<Lesson> lessons) {
+    HashMap<String, Coach> coaches;
+
+    public BookingUi(Timetable timetable, HashMap<String,Learner> learners,List<Lesson> lessons,HashMap<String, Coach> coaches ) {
         this.timetable = timetable;
         this.learners  = learners;
         this.learner = null;
         this.lessons = lessons;
+        this.coaches = coaches;
         displayLearnerSelection();
 
     }
@@ -71,7 +76,7 @@ public class BookingUi {
         panel.add(selectButton);
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
-            new HomeUi(timetable,learners,lessons);
+            new HomeUi(timetable,learners,lessons,coaches);
             frame.dispose();
         });
         frame.add(panel, BorderLayout.CENTER);
@@ -164,7 +169,12 @@ private void displayBookingInterface(Learner learner) {
     private void bookLesson(String selectedDate, int selectedGrade, Learner selectedLearner) {
         Map<String, Lesson> lessons = timetable.getLessons(selectedDate);
         if (lessons.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "No lessons available on " + selectedDate, "No Lessons", JOptionPane.WARNING_MESSAGE);
+            DateLabelFormatter dateLabelFormatter = new DateLabelFormatter();
+            try {
+                JOptionPane.showMessageDialog(null, "No lessons available on " + dateLabelFormatter.valueToString(selectedDate), "No Lessons", JOptionPane.WARNING_MESSAGE);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
             return;
         }
 
@@ -177,7 +187,12 @@ private void displayBookingInterface(Learner learner) {
         }
 
         if (selectedLesson == null) {
-            JOptionPane.showMessageDialog(null, "No lessons available for Grade " + selectedGrade + " on " + selectedDate, "No Lessons", JOptionPane.WARNING_MESSAGE);
+            DateLabelFormatter dateLabelFormatter = new DateLabelFormatter();
+            try {
+                JOptionPane.showMessageDialog(null, "No lessons available for Grade " + selectedGrade + " on " + dateLabelFormatter.valueToString(selectedDate), "No Lessons", JOptionPane.WARNING_MESSAGE);
+            } catch (ParseException e) {
+                throw new RuntimeException(e);
+            }
             return;
         }
         if(selectedGrade > selectedLearner.getGradeLevel()+1){

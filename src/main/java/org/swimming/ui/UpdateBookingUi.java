@@ -1,4 +1,5 @@
 package org.swimming.ui;
+import org.swimming.domain.Coach;
 import org.swimming.domain.Learner;
 import org.swimming.domain.Lesson;
 import org.swimming.domain.Timetable;
@@ -17,14 +18,15 @@ public class UpdateBookingUi {
     private final Learner learner;
     private final Integer lessonId;
     private final List<Lesson> lessons;
+    private final HashMap<String, Coach> coaches;
 
-
-    public UpdateBookingUi(Timetable timetable,Learner learner,HashMap<String,Learner> learners, Integer lessonId, List<Lesson> lessons) {
+    public UpdateBookingUi(Timetable timetable,Learner learner,HashMap<String,Learner> learners, Integer lessonId, List<Lesson> lessons,HashMap<String, Coach> coaches) {
         this.timetable = timetable;
         this.learner  = learner;
         this.learners = learners;
         this.lessonId = lessonId;
         this.lessons = lessons;
+        this.coaches = coaches;
         if (learner != null) {
             displayBookingInterface(learner);
         } else {
@@ -75,7 +77,7 @@ public class UpdateBookingUi {
 
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
-            new HomeUi(timetable,learners,lessons);
+            new HomeUi(timetable,learners,lessons,coaches);
             frame.dispose();
         });
 

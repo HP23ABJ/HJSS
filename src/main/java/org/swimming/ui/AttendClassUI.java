@@ -1,5 +1,6 @@
 package org.swimming.ui;
 
+import org.swimming.domain.Coach;
 import org.swimming.domain.Learner;
 import org.swimming.domain.Lesson;
 import org.swimming.domain.Timetable;
@@ -18,10 +19,12 @@ public class AttendClassUI {
     private final Timetable timetable;
     HashMap<String,Learner> learners;
     List<Lesson> lessons;
-    public AttendClassUI(Timetable timetable,HashMap<String, Learner> learners,List<Lesson> lessons) {
+    HashMap<String, Coach> coaches;
+    public AttendClassUI(Timetable timetable,HashMap<String, Learner> learners,List<Lesson> lessons,HashMap<String,Coach>coaches) {
         this.learners = learners;
         this.timetable = timetable;
         this.lessons = lessons;
+        this.coaches=coaches;
         displayLearnerSelection();
     }
     private void displayLearnerSelection() {
@@ -56,7 +59,7 @@ public class AttendClassUI {
         panel.add(selectButton);
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
-            new HomeUi(timetable,learners,lessons);
+            new HomeUi(timetable,learners,lessons,coaches);
             frame.dispose();
         });
         frame.add(panel, BorderLayout.CENTER);
@@ -104,14 +107,14 @@ public class AttendClassUI {
                     }
                 }
                 if(selectedLearner != null && selectLesson != null) {
-                    frame.dispose();
                     attendClass(selectedLearner, selectedLesson);
                 }
+                frame.dispose();
             });
             panel.add(selectButton);
             JButton backButton = new JButton("Back");
             backButton.addActionListener(e -> {
-                new AttendClassUI(timetable, learners,lessons);
+                new AttendClassUI(timetable, learners,lessons,coaches);
                 frame1.dispose();
             });
             frame1.add(panel, BorderLayout.CENTER);
@@ -152,20 +155,32 @@ public class AttendClassUI {
 
         // Add action listeners
         selectButton.addActionListener(e -> {
+            DateLabelFormatter dateLabelFormatter = new DateLabelFormatter();
             String review = reviewTextArea.getText();
             int rating = (int) ratingComboBox.getSelectedItem();
 
             selectedLearner.getLessonReviews().put(selectedLesson,review);
-            selectedLearner.getCoachRatings().put(selectedLesson,rating);
+            selectedLearner.addCoachRating(selectedLesson.getCoach(),rating,selectedLearner);
+            String month;
+            try {
+                String dateString = dateLabelFormatter.valueToString(selectedLesson.getDate());
+                String[] parts = dateString.split("-");
+                month = parts[1];
+            } catch (ParseException ex) {
+                throw new RuntimeException(ex);
+            }
+
+            selectedLesson.getCoach().addRating(selectedLesson.getCoach(),rating,month);
+
             selectedLearner.removeLesson("Booked",selectedLesson);
             selectedLearner.addLesson("Attended",selectedLesson);
             JOptionPane.showMessageDialog(null, "Lesson Attended successfully!", "lesson Attended Successful", JOptionPane.INFORMATION_MESSAGE);
             frame.dispose();
-            new HomeUi(timetable,learners,lessons);
+            new HomeUi(timetable,learners,lessons,coaches);
         });
 
         backButton.addActionListener(e -> {
-            new AttendClassUI(timetable, learners,lessons);
+            new AttendClassUI(timetable, learners,lessons,coaches);
             frame.dispose();
         });
 

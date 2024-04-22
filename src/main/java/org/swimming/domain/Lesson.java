@@ -11,15 +11,19 @@ public class Lesson {
     private Integer id;
     private Integer gradeLevel;
     private String time;
+    private String day;
     private Coach coach;
     private Object date;
+    private Integer month;
     private Map<String, Learner> learners;
 
-    public Lesson(Integer id, Integer gradeLevel, String time, String Date, Coach coach) {
+    public Lesson(Integer id, Integer gradeLevel, String time,String day, String Date, Integer month,Coach coach) {
         DateLabelFormatter dateLabelFormatter = new DateLabelFormatter();
         this.id = id;
         this.gradeLevel = gradeLevel;
         this.time = time;
+        this.day = day;
+        this.month = month;
         this.coach = coach;
         try {
             this.date = dateLabelFormatter.stringToValue(Date);
@@ -38,6 +42,14 @@ public class Lesson {
             return true;
         }
         return false;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
     }
 
     public Integer getId() {
@@ -62,6 +74,14 @@ public class Lesson {
 
     public String getTime() {
         return time;
+    }
+
+    public Integer getMonth() {
+        return month;
+    }
+
+    public void setMonth(Integer month) {
+        this.month = month;
     }
 
     public void setTime(String time) {

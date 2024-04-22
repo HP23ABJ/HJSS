@@ -1,4 +1,5 @@
 package org.swimming.ui;
+import org.swimming.domain.Coach;
 import org.swimming.domain.Learner;
 import org.swimming.domain.Lesson;
 import org.swimming.domain.Timetable;
@@ -13,10 +14,12 @@ public class CancelBookingUi {
     private final Timetable timetable;
     private final HashMap<String, Learner> learners;
     private final List<Lesson> lessons;
-    public CancelBookingUi(Timetable timetable, HashMap<String, Learner> learners, List<Lesson> lessons) {
+    HashMap<String, Coach> coaches;
+    public CancelBookingUi(Timetable timetable, HashMap<String, Learner> learners, List<Lesson> lessons, HashMap<String, Coach> coaches) {
         this.timetable = timetable;
         this.learners  = learners;
         this.lessons = lessons;
+        this.coaches=coaches;
         displayLearnerSelection();
     }
 
@@ -53,7 +56,7 @@ public class CancelBookingUi {
         panel.add(selectButton);
         JButton backButton = new JButton("Back");
         backButton.addActionListener(e -> {
-            new HomeUi(timetable,learners,lessons);
+            new HomeUi(timetable,learners,lessons,coaches);
             frame.dispose();
         });
         frame.add(panel, BorderLayout.CENTER);
@@ -74,7 +77,7 @@ public class CancelBookingUi {
         }
         if( bookedLessons == null || bookedLessons.isEmpty()){
             JOptionPane.showMessageDialog(null, "No Booked Lessons for "+selectedLearner.getName(), "No Lessons", JOptionPane.WARNING_MESSAGE);
-            new HomeUi(timetable,learners,lessons);
+            new HomeUi(timetable,learners,lessons,coaches);
         }else{
 
             JFrame frame = new JFrame("Select Booking");
@@ -106,13 +109,13 @@ public class CancelBookingUi {
                 String[] idParts = idPart.split(":");
                 String lessonIdString = idParts[1].trim();
 
-                new UpdateBookingUi(timetable,selectedLearner,learners,Integer.parseInt(lessonIdString),lessons);
+                new UpdateBookingUi(timetable,selectedLearner,learners,Integer.parseInt(lessonIdString),lessons,coaches);
                 frame.dispose();
             });
             panel.add(selectButton);
             JButton backButton = new JButton("Back");
             backButton.addActionListener(e -> {
-                new CancelBookingUi(timetable,learners,lessons);
+                new CancelBookingUi(timetable,learners,lessons,coaches);
                 frame.dispose();
             });
             frame.add(panel, BorderLayout.CENTER);

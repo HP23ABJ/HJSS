@@ -15,30 +15,36 @@ public class HomeUi {
     private final Timetable timetable;
     private final HashMap<String, Learner> learners;
     private final List<Lesson> lessons;
+    private final HashMap<String,Coach> coaches;
 
     public static void main(String[] args) {
         Timetable timetable = new Timetable();
         HashMap<String, Learner> learners = new HashMap<>();
         ArrayList<Lesson> lessons = new ArrayList<>();
-        initializeData(learners,timetable,lessons);
-        new HomeUi(timetable,learners,lessons);
+        HashMap<String,Coach> coaches = new HashMap<>();
+        initializeData(learners,timetable,lessons,coaches);
+        new HomeUi(timetable,learners,lessons,coaches);
 
     }
-    public HomeUi(Timetable timetable,HashMap<String,Learner> learners, List<Lesson> lessons) {
+    public HomeUi(Timetable timetable,HashMap<String,Learner> learners, List<Lesson> lessons,HashMap<String,Coach> coaches) {
         this.timetable = timetable;
         this.learners = learners;
         this.lessons = lessons;
+        this.coaches = coaches;
         createAndShowUi();
 
     }
-    private static void initializeData(HashMap<String,Learner> learners, Timetable timetable, ArrayList<Lesson> lessons) {
-        Coach coach = new Coach("Coach Name", new HashMap<>());
 
-        Lesson lesson1 = new Lesson(1,1, "4-5pm", "2024-04-15", coach);
-        Lesson lesson2 = new Lesson(2,2, "5-6pm", "2024-04-15", coach);
-        Lesson lesson2A = new Lesson(3,2, "5-6pm", "2024-04-17", coach);
-        Lesson lesson3 = new Lesson(4,3, "5-6pm", "2024-04-17", coach);
-        Lesson lesson4 = new Lesson(5,4, "5-6pm", "2024-04-19", coach);
+    private static void initializeData(HashMap<String,Learner> learners, Timetable timetable, ArrayList<Lesson> lessons, HashMap<String, Coach> coaches) {
+        Coach Alexander = new Coach(1,"Alexander", new HashMap<>(),new HashMap<>());
+        Coach Frank = new Coach(2,"Frank", new HashMap<>(),new HashMap<>());
+        Coach Anthony = new Coach(3,"Anthony", new HashMap<>(),new HashMap<>());
+
+        Lesson lesson1 = new Lesson(1,1,"4-5pm","Monday", "2024-04-15",4,Alexander);
+        Lesson lesson2 = new Lesson(2,2, "5-6pm","Monday", "2024-04-15", 4,Alexander);
+        Lesson lesson2A = new Lesson(3,2, "5-6pm","Wednesday", "2024-04-17",4, Frank);
+        Lesson lesson3 = new Lesson(4,3, "5-6pm", "Wednesday","2024-04-17",4, Frank);
+        Lesson lesson4 = new Lesson(5,4, "5-6pm", "Friday","2024-04-19",4, Anthony);
 
         lessons.add(lesson1);
         lessons.add(lesson2);
@@ -63,6 +69,10 @@ public class HomeUi {
         learners.put(learner3.getName(), learner3);
         learners.put(learner4.getName(), learner4);
         learners.put(learner5.getName(), learner5);
+
+        coaches.put(Alexander.getName(), Alexander);
+        coaches.put(Frank.getName(), Frank);
+        coaches.put(Anthony.getName(), Anthony);
     }
     private void createAndShowUi() {
         JFrame frame = new JFrame("Home");
@@ -79,46 +89,42 @@ public class HomeUi {
         buttonPanel.add(bookBtn);
         buttonPanel.add(cancleBookingBtn);
         buttonPanel.add(attendLessonBtn);
+        buttonPanel.add(registerLearnerBtn);
         buttonPanel.add(monthlyLearnerReportBtn);
         buttonPanel.add(monthlyCoachReportBtn);
-        buttonPanel.add(registerLearnerBtn);
 
 
         frame.add(buttonPanel);
         bookBtn.addActionListener(e -> {
-
-            new BookingUi(timetable,learners,lessons);
+            new viewTimetableUi(timetable,learners,lessons,coaches,null);
             frame.dispose();
         });
 
 
         cancleBookingBtn.addActionListener((event)->{
-            new CancelBookingUi(timetable,learners,lessons);
+            new CancelBookingUi(timetable,learners,lessons,coaches);
             frame.dispose();
         });
 
         attendLessonBtn.addActionListener((event)->{
-            new AttendClassUI(timetable,learners,lessons);
+            new AttendClassUI(timetable,learners,lessons,coaches);
             frame.dispose();
 
         });
 
         monthlyLearnerReportBtn.addActionListener((event)->{
-
+            new monthlyLearnerReport(timetable,learners,lessons,coaches);
             frame.dispose();
-//            new VehicleOwnerUi();
-
         });
 
         monthlyCoachReportBtn.addActionListener((event)->{
-
+            new monthlyCoachReport(timetable,learners,lessons,coaches);
             frame.dispose();
-//            new BookingUi();
 
         });
 
         registerLearnerBtn.addActionListener((event)->{
-
+            new RegisterUserUi(timetable,learners,lessons,coaches);
             frame.dispose();
 //            new UserUi();
 
@@ -149,72 +155,4 @@ public class HomeUi {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
-//private void createAndShowUi() {
-//    JFrame frame = new JFrame("Home");
-//    frame.setSize(1000, 500);
-//
-//    // Load the image
-//    ImageIcon logoIcon = new ImageIcon("src/main/resources/360_F_585864419_kgIYUcDQ0yiLOCo1aRjeu7kRxndcoitz.jpg");
-//    JLabel logoLabel = new JLabel(logoIcon);
-//
-//    JPanel buttonPanel = new JPanel();
-//    buttonPanel.setLayout(new GridLayout(3, 3, 10, 10));
-//
-//    // Add buttons to the button panel
-//    JButton bookBtn = new JButton("Book A Lesson");
-//    JButton cancelBookingBtn = new JButton("Change/Cancel A Booking");
-//    JButton attendLessonBtn = new JButton("Attend A Swimming Lesson");
-//    JButton monthlyLearnerReportBtn = new JButton("Monthly Learner Report");
-//    JButton monthlyCoachReportBtn = new JButton("Monthly Coach Report");
-//    JButton registerLearnerBtn = new JButton("Register A New Learner");
-//    buttonPanel.add(bookBtn);
-//    buttonPanel.add(cancelBookingBtn);
-//    buttonPanel.add(attendLessonBtn);
-//    buttonPanel.add(monthlyLearnerReportBtn);
-//    buttonPanel.add(monthlyCoachReportBtn);
-//    buttonPanel.add(registerLearnerBtn);
-//
-//    // Add the logo label and button panel to the frame
-//    frame.add(logoLabel, BorderLayout.NORTH); // Add the logo label to the top of the frame
-//    frame.add(buttonPanel, BorderLayout.CENTER); // Add the button panel to the center of the frame
-//
-//    // Add action listeners to the buttons
-//    bookBtn.addActionListener(e -> {
-//        new BookingUi(timetable, learners);
-//        frame.dispose();
-//    });
-//    cancelBookingBtn.addActionListener(e -> {
-//        new CancelBookingUi(timetable, learners);
-//        frame.dispose();
-//    });
-//    // Add action listeners for other buttons...
-//
-//    // Set fonts and colors for the buttons
-//    Font buttonFont = new Font("Copperplate Gothic Light", Font.BOLD, 16);
-//    Color buttonBackground = Color.LIGHT_GRAY;
-//    Color buttonForeground = Color.BLACK;
-//    for (Component component : buttonPanel.getComponents()) {
-//        if (component instanceof JButton) {
-//            JButton button = (JButton) component;
-//            button.setFont(buttonFont);
-//            button.setBackground(buttonBackground);
-//            button.setForeground(buttonForeground);
-//        }
-//    }
-//
-//    // Set frame properties
-//    frame.setBackground(Color.BLUE);
-//    frame.setLayout(new FlowLayout(FlowLayout.CENTER, 10, 200));
-//    frame.setVisible(true);
-//    frame.setLocationRelativeTo(null);
-//    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//}
-
-    private static void addImageOnButton(JButton button,String imagePath,int height,int width){
-        ImageIcon imageIcon = new ImageIcon(imagePath);
-        Image newImage = imageIcon.getImage().getScaledInstance(width,height,Image.SCALE_SMOOTH);
-        button.setIcon(new ImageIcon(newImage));
-
-    }
-
 }
