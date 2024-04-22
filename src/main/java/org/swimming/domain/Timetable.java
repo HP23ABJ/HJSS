@@ -38,6 +38,6 @@ public class Timetable {
                 }
             }
         }
-        return null; // Lesson with the given ID not found
+        return null;
     }
 }

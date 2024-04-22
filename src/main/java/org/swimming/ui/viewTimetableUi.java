@@ -19,7 +19,7 @@ public class viewTimetableUi {
     private final Timetable timetable;
     private final HashMap<String, Learner> learners;
     private final List<Lesson> lessons;
-    HashMap<String, Coach> coaches;
+    private final HashMap<String, Coach> coaches;
     private final Learner selectedLearner;
     public viewTimetableUi(Timetable timetable, HashMap<String, Learner> learners, List<Lesson> lessons, HashMap<String, Coach> coaches,Learner learner) {
         this.timetable = timetable;
@@ -262,21 +262,13 @@ public class viewTimetableUi {
                 for(int j = 0 ; j<keys.size();j++){
                     if(j == 0){
                         data[i][6] = keys.get(0);
-                    }else{
-                        data[i][6] = "Empty";
                     }
-                    if(j == 1 ){
+                    if(j == 1){
                         data[i][7] = keys.get(1);
-                    }else{
-                        data[i][7] = "Empty";
                     }if(j == 2){
                         data[i][8] = keys.get(2);
-                    }else {
-                        data[i][8] = "Empty";
                     }if(j == 3){
                         data[i][9] = keys.get(3);
-                    }else{
-                        data[i][9] = "Empty";
                     }
                 }
             }else{

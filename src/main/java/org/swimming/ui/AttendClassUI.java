@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class AttendClassUI {
-    private final Timetable timetable;
+    private Timetable timetable;
     HashMap<String,Learner> learners;
     List<Lesson> lessons;
     HashMap<String, Coach> coaches;
@@ -27,6 +27,11 @@ public class AttendClassUI {
         this.coaches=coaches;
         displayLearnerSelection();
     }
+
+    public AttendClassUI() {
+
+    }
+
     private void displayLearnerSelection() {
         JFrame frame = new JFrame("Select Learner");
         frame.setSize(400, 200);
@@ -128,7 +133,7 @@ public class AttendClassUI {
         }
     }
 
-    private void attendClass(Learner selectedLearner,Lesson selectedLesson) {
+    public void attendClass(Learner selectedLearner, Lesson selectedLesson) {
         JFrame frame = new JFrame("Attend Class");
         frame.setSize(400, 200);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -35,10 +35,12 @@ public class HomeUi {
 
     }
 
-    private static void initializeData(HashMap<String,Learner> learners, Timetable timetable, ArrayList<Lesson> lessons, HashMap<String, Coach> coaches) {
+    public static void initializeData(HashMap<String, Learner> learners, Timetable timetable, ArrayList<Lesson> lessons, HashMap<String, Coach> coaches) {
         Coach Alexander = new Coach(1,"Alexander", new HashMap<>(),new HashMap<>());
         Coach Frank = new Coach(2,"Frank", new HashMap<>(),new HashMap<>());
         Coach Anthony = new Coach(3,"Anthony", new HashMap<>(),new HashMap<>());
+        Coach Andrew = new Coach(4,"Andrew", new HashMap<>(),new HashMap<>());
+        Coach Samantha = new Coach(5,"Samantha", new HashMap<>(),new HashMap<>());
 
         Lesson lesson1 = new Lesson(1,1,"4-5pm","Monday", "2024-04-15",4,Alexander);
         Lesson lesson2 = new Lesson(2,2, "5-6pm","Monday", "2024-04-15", 4,Alexander);
@@ -113,12 +115,12 @@ public class HomeUi {
         });
 
         monthlyLearnerReportBtn.addActionListener((event)->{
-            new monthlyLearnerReport(timetable,learners,lessons,coaches);
+            new MonthlyLearnerReport(timetable,learners,lessons,coaches);
             frame.dispose();
         });
 
         monthlyCoachReportBtn.addActionListener((event)->{
-            new monthlyCoachReport(timetable,learners,lessons,coaches);
+            new MonthlyCoachReport(timetable,learners,lessons,coaches);
             frame.dispose();
 
         });

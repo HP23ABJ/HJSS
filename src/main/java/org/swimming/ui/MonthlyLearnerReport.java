@@ -8,21 +8,19 @@ import org.swimming.service.DateLabelFormatter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class monthlyLearnerReport {
+public class MonthlyLearnerReport {
     private final Timetable timetable;
     private final HashMap<String, Learner> learners;
     private final Learner learner;
     private final List<Lesson> lessons;
     HashMap<String, Coach> coaches;
-    public monthlyLearnerReport(Timetable timetable, HashMap<String, Learner> learners, List<Lesson> lessons, HashMap<String, Coach> coaches) {
+    public MonthlyLearnerReport(Timetable timetable, HashMap<String, Learner> learners, List<Lesson> lessons, HashMap<String, Coach> coaches) {
         this.timetable = timetable;
         this.learners  = learners;
         this.learner = null;
@@ -78,7 +76,7 @@ public class monthlyLearnerReport {
         frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
     }
 
-    private void displayLearnerReport(Learner selectedLearner, Integer selectedMonth) {
+    public void displayLearnerReport(Learner selectedLearner, Integer selectedMonth) {
         Map<String, List<Lesson>> lessonStatus = selectedLearner.getLessonStatus();
         Map<String,List<Lesson>> filteredLessons = new HashMap<>();
 
@@ -136,5 +134,44 @@ public class monthlyLearnerReport {
         });
         frame.getContentPane().add(homeButton, BorderLayout.SOUTH);
         frame.setVisible(true);
+    }
+    public Object[][] prepareLessonData(Learner selectedLearner, Integer selectedMonth) throws ParseException {
+        Map<String, List<Lesson>> lessonStatus = selectedLearner.getLessonStatus();
+        Map<String, List<Lesson>> filteredLessons = new HashMap<>();
+
+        for (String key : lessonStatus.keySet()) {
+            List<Lesson> lessons1 = lessonStatus.get(key);
+            for (Lesson lesson : lessons1) {
+                if (lesson.getMonth().equals(selectedMonth)) {
+                    if (filteredLessons.containsKey(key)) {
+                        List<Lesson> lessonsList = filteredLessons.get(key);
+                        lessonsList.add(lesson);
+                    } else {
+                        List<Lesson> lessonsList = new ArrayList<>();
+                        lessonsList.add(lesson);
+                        filteredLessons.put(key, lessonsList);
+                    }
+                }
+            }
+        }
+
+        List<Object[]> dataList = new ArrayList<>();
+        DateLabelFormatter dateLabelFormatter = new DateLabelFormatter();
+        for (String key : filteredLessons.keySet()) {
+            List<Lesson> lessons = filteredLessons.get(key);
+            for (Lesson lesson : lessons) {
+                Object[] rowData = new Object[7];
+                rowData[0] = lesson.getId();
+                rowData[1] = lesson.getGradeLevel();
+                rowData[2] = lesson.getTime();
+                rowData[3] = lesson.getDay();
+                rowData[4] = dateLabelFormatter.valueToString(lesson.getDate());
+                rowData[5] = lesson.getCoach().getName();
+                rowData[6] = key;
+                dataList.add(rowData);
+            }
+        }
+
+        return dataList.toArray(new Object[0][0]);
     }
 }

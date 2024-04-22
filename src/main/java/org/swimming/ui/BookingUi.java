@@ -114,7 +114,6 @@ private void displayBookingInterface(Learner learner) {
 
         JButton bookButton = new JButton("Book Lesson");
         bookButton.addActionListener(e -> {
-            DateLabelFormatter dateLabelFormatter = new DateLabelFormatter();
             String selectedDate =  datePicker.getJFormattedTextField().getText();
             String selectedGrade = (String) gradeComboBox.getSelectedItem();
             int grade = 0;
@@ -166,7 +165,7 @@ private void displayBookingInterface(Learner learner) {
         return grade;
     }
 
-    private void bookLesson(String selectedDate, int selectedGrade, Learner selectedLearner) {
+    public void bookLesson(String selectedDate, int selectedGrade, Learner selectedLearner) {
         Map<String, Lesson> lessons = timetable.getLessons(selectedDate);
         if (lessons.isEmpty()) {
             DateLabelFormatter dateLabelFormatter = new DateLabelFormatter();

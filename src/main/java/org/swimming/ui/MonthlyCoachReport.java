@@ -7,18 +7,17 @@ import org.swimming.domain.Timetable;
 
 import javax.swing.*;
 import java.awt.*;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class monthlyCoachReport {
+public class MonthlyCoachReport {
     private final Timetable timetable;
     private final HashMap<String, Learner> learners;
     private final List<Lesson> lessons;
     private final HashMap<String, Coach> coaches;
-    public monthlyCoachReport(Timetable timetable, HashMap<String, Learner> learners, List<Lesson> lessons, HashMap<String, Coach> coaches) {
+    public MonthlyCoachReport(Timetable timetable, HashMap<String, Learner> learners, List<Lesson> lessons, HashMap<String, Coach> coaches) {
         this.timetable = timetable;
         this.learners  = learners;
         this.lessons = lessons;

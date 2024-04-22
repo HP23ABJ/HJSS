@@ -13,7 +13,7 @@ import org.jdatepicker.impl.UtilDateModel;
 import org.swimming.service.DateLabelFormatter;
 
 public class UpdateBookingUi {
-    private final Timetable timetable;
+    public final Timetable timetable;
     private final HashMap<String, Learner> learners;
     private final Learner learner;
     private final Integer lessonId;
@@ -116,7 +116,7 @@ public class UpdateBookingUi {
         return grade;
     }
 
-    private void bookLesson(String selectedDate, int selectedGrade, Learner selectedLearner) {
+    public void bookLesson(String selectedDate, int selectedGrade, Learner selectedLearner) {
         Map<String, Lesson> lessons = timetable.getLessons(selectedDate);
         if (lessons.isEmpty()) {
             JOptionPane.showMessageDialog(null, "No lessons available on " + selectedDate, "No Lessons", JOptionPane.WARNING_MESSAGE);
